@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import math
 
 
@@ -100,8 +101,33 @@ class ID3(object):
         self.root_node.add_to_graph(dot_graph)
         dot_graph.render(filename)
 
+    def _predict(self, row, node):
+        if node.branches:
+            return self._predict(row, node.branches[row[node.attribute]])
+        else:
+            return node.attribute
+
+    def predict(self, data):
+        if not hasattr(data, 'iterrows'):
+            data = pd.DataFrame([data])
+        results = []
+        for index, row in data.iterrows():
+            results.append(self._predict(row, self.root_node))
+        return pd.Series(results)
+
+    @staticmethod
+    def score(predict_results,  actual_results):
+        return sum(predict_results == actual_results) / len(predict_results)
+
+
 if __name__ == '__main__':
     test_data = pd.read_csv('golf.csv')
-    test_id3 = ID3(test_data, target='play')
-    test_id3.run()
-    test_id3.render_decision_tree('./dtree')
+    id3_solver = ID3(test_data, target='play')
+    id3_solver.run()
+    id3_solver.render_decision_tree('./dtree')
+    # 功能性测试，实际运行时测试集和训练集不能混起来
+    valid_data = test_data.iloc[0:2]
+    predict = id3_solver.predict(valid_data)
+    actual = valid_data['play']
+
+
