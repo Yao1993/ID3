@@ -1,14 +1,14 @@
 // Decision Tree
 digraph {
 	outlook1 [label=outlook]
-	yes8 [label=yes]
-		outlook1 -> yes8 [label=overcast]
 	windy5 [label=windy]
 	yes6 [label=yes]
 		windy5 -> yes6 [label=False]
 	no7 [label=no]
 		windy5 -> no7 [label=True]
 		outlook1 -> windy5 [label=rainy]
+	yes8 [label=yes]
+		outlook1 -> yes8 [label=overcast]
 	humidity2 [label=humidity]
 	yes4 [label=yes]
 		humidity2 -> yes4 [label=normal]
