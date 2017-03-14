@@ -101,19 +101,24 @@ class ID3(object):
         self.root_node.add_to_graph(dot_graph)
         dot_graph.render(filename)
 
-    def _predict(self, row, node):
+    def _predict(self, row, node, force):
         if node.branches:
-            return self._predict(row, node.branches[row[node.attribute]])
+            try:
+                return self._predict(row, node.branches[row[node.attribute]], force)
+            except KeyError as e:
+                if force:
+                    return self._predict(row, next(iter(node.branches.values())), force)
+                raise e
         else:
             return node.attribute
 
-    def predict(self, data):
+    def predict(self, data, force=False):
         if not hasattr(data, 'iterrows'):
             data = pd.DataFrame([data])
         results = []
         for index, row in data.iterrows():
-            results.append(self._predict(row, self.root_node))
-        return pd.Series(results)
+            results.append(self._predict(row, self.root_node, force=force))
+        return results
 
     @staticmethod
     def score(predict_results,  actual_results):
