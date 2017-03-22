@@ -8,3 +8,7 @@ ID3算法的实现与测试。
 | mushroom_data | UCI蘑菇分类数据以及生成的决策树   |
 | nursery_data  | UCI Nursery数据集以及生成的决策树 |
 
+本项目依赖于数个包，可以使用以下命令快速安装。
+```
+pip install -r ./requirements.txt
+```
