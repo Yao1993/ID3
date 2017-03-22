@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from id3 import ID3
 import pandas as pd
 
