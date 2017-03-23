@@ -77,8 +77,13 @@ class ID3(object):
         if len(data[self.target].value_counts()) == 1:
             node.attribute = data[self.target].value_counts().index[0]
             return
+        # 如果除了target外，已经没有其他attribute了，那也返回
+        if len(data.columns) == 1:
+            node.attribute = data[self.target].value_counts().argmax()
+            return
+
         # 寻找熵最小的属性
-        min_entropy = 1.0
+        min_entropy = math.inf
         for attribute in data.columns:
             if attribute == self.target:
                 continue
