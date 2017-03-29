@@ -1,5 +1,5 @@
-graphviz==0.5.2
-matplotlib==1.5.3
+graphviz==0.6
+matplotlib==2.0.0
 numpy==1.11.3
 pandas==0.19.2
 colorspacious==1.1.0
