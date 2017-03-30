@@ -50,6 +50,7 @@ class ID3(object):
         value_freq = data[attribute].value_counts()
         data_entropy = 0.0
         N = len(data)
+        #  $\mathrm{Entropy(A)}=\sum_{i=1}^{s} \mathrm{Info(data[A])}$
         for value, freq in value_freq.items():
             p = freq / N
             data_entropy += p * self._info(data, attribute, value)
@@ -60,6 +61,7 @@ class ID3(object):
         target_value_freq = data[self.target].value_counts()
         data_info = 0.0
         N = len(data)
+        # $\mathrm{Info}=\sum_{i=1}^{c} - p_i \log_2 p_i$
         for freq in target_value_freq.values:
             p = freq / N
             data_info -= p * math.log(p, 2)
@@ -173,6 +175,3 @@ if __name__ == '__main__':
     print('The accuracy of the prediction of test data is {}'.format(accuracy))
 
     #  更多的例子可以查看 nursery.py 与 mushroom.py
-
-
-
